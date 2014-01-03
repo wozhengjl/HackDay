@@ -76,18 +76,22 @@ namespace HackDay
         {
             var queueClient = GetQueue("latestaccess");
 
-            IList<string> tenantsData = new List<string>
+            var messages = queueClient.GetMessages(32);
+
+            if (messages.Count() == 0)
             {
-                "Tenant \"CogMotive\" \n is accessing StaleMailbox report...\n",
-                "Tenant \"CogMotive\" \n is accessing StaleMailbox report...\n",
-                "Tenant \"CogMotive\" \n is accessing StaleMailbox report...\n",
-                "Tenant \"CogMotive\" \n is accessing StaleMailbox report...\n",
-                "Tenant \"CogMotive\" \n is accessing StaleMailbox report...\n",
-                "Tenant \"CogMotive\" \n is accessing StaleMailbox report...\n",
-                "Tenant \"CogMotive\" \n is accessing StaleMailbox report...\n",
-                "Tenant \"CogMotive\" \n is accessing StaleMailbox report...\n",
-            };
-            return tenantsData;
+                return new List<string>();
+            }
+            else
+            {
+                return messages.Select(c => TenantAccessFormatter(c.AsString)).ToList();
+            }
+        }
+
+        private string TenantAccessFormatter(string str)
+        {
+            var parts = str.Split(new string[] { "___" }, StringSplitOptions.None);
+            return string.Format("Tenant {0} is accessing {1} Report ... \n", parts[0], parts[1]);
         }
 
         public IList<CountryItem> GetCountryData(string date)
