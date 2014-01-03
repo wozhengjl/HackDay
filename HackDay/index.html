@@ -14,59 +14,143 @@
     <script src="jquery-jvectormap-world-mill-en.js"></script>
 
     <script src="controller.js"></script>
+
+        <style>
+        .tile {
+	        float: left;
+	        display: block;
+	        background-color: #5B9BD5;
+	        width: 150px;
+	        height: 150px;
+	        cursor: pointer;
+	        box-shadow: inset 0px 0px 1px #FFFFCC;
+	        text-decoration: none;
+	        color: #ffffff;
+	        position: relative;
+	        font-family: 'Segoe UI Semilight', 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
+	        font-weight: 300;
+	        font-size: 11pt;
+	        letter-spacing: 0.02em;
+	        font-smooth: always;
+	        margin: 0 10px 10px 0;
+	        overflow: hidden;
+	        text-align: center;
+			line-height: 300%;
+         }
+ 
+        .tile.long {
+          width: 310px;
+          background-color: #b59d17;
+        }
+  
+        .metrotitle {
+	        color:	#5B9BD5;
+        }
+ 
+        .tile-digit {
+			padding-top: 12px;
+			padding-bottom: 8px;
+	        font-weight: 800;
+	        font-size:	32pt;
+        }
+
+        .tile-description {
+	        font-weight: 800;
+	        font-size:	14pt;
+			line-height: 130%;
+        }
+ 
+        .tile-append {
+	        position: absolute;
+            bottom: 0;
+	        right: 0;
+			line-height: 100%;
+        }
+ 
+        .tilecontainer {
+	        width:	800px;
+            #display:none;
+        }
+ 
+        .group {
+	        width:	340px;
+	        padding-left:	12px;
+	        padding-top:	12px;
+        }
+ 
+        .leftgroup {
+	        float: left;
+	        position: relative;
+        }
+ 
+        .rightgroup {
+	        float: left;
+	        position: relative;
+        }
+    </style>
+
 </head>
 <body>
     <div>
-        <div>
-            <div id="AvailabilityDiv1" style="position:absolute; left:60px; top:5px; width:150px; height:100px; padding-top:10px; padding-bottom:10px; line-height: 15px; text-align:center; background-color:rgb(255, 255, 255);" > 
-                <p>Today's Availability</p>              
-                <label id="AvailabilityLabel1">99.99</label>
+        <div class="tilecontainer">
+		    <div class="group leftgroup">
+				<h1 class="metrotitle">SLA</h1>
+					
+				<div class="tile">
+					<div class="tile-digit" id="AvailabilityLabel1">N/A</div>
+					<div class="tile-description">Availability</div>
+				</div>
+
+				<div class="tile">
+					<div class="tile-digit" id="AvailabilityLabel2">N/A</div>
+					<div class="tile-description">8553?</div>
+				</div>
+
+				<div class="tile">
+					<div class="tile-digit" id="AvailabilityLabel3">N/A</div>
+					<div class="tile-description">8661?</div>
+				</div>
+
+				<div class="tile">
+					<div class="tile-digit" id="AvailabilityLabel4">N/A</div>
+					<div class="tile-description">Access Denied</div>
+				</div>
+
+                <canvas id="tagIDChart" width="315" height="160"></canvas>
+			</div>
+				
+			<div class="group rightgroup">
+				<h1 class="metrotitle">Insight</h1>
+				<div class="tile">
+					<div class="tile-digit" id="MbxUsageUsageLabel">N/A</div>
+					<div class="tile-description">MailboxUsage</div>
+				</div>
+
+				<div class="tile">
+					<div class="tile-digit" id="ConnectionByClientTypeUsageLabel">N/A</div>
+					<div class="tile-description">Client Type</div>
+					<div class="tile-append">-147</div>
+				</div>
+
+				<div class="tile long">
+					<div class="tile-digit" id="MbxUsageDMLabel">N/A</div>
+					<div class="tile-description">Data Complete</div>
+					<div class="tile-append">+0.04</div>
+				</div>
+
+                <canvas id="barChart" width="315" height="160"></canvas>
+			</div>
+
+            <div id="world-map" style="width:662px; height:200px; padding-left:12px">
             </div>
-            <div id="Div1" style="position:absolute; left:225px; top:5px; width:150px; height:100px; padding-top:10px; padding-bottom:10px; line-height: 15px; text-align:center; background-color:rgb(255, 255, 255);" >
-                <p>Exception 8553</p>              
-                <label id="AvailabilityLabel2">0</label>
-            </div>
-            <div id="Div2" style="position:absolute; left:60px; top:130px; width:150px; height:100px; padding-top:10px; padding-bottom:10px; line-height: 15px; text-align:center; background-color:rgb(255, 255, 255);" >
-                <p>Exception 8661</p>              
-                <label id="AvailabilityLabel3">0</label>
-            </div>
-            <div id="Div3" style="position:absolute; left:225px; top:130px; width:150px; height:100px; padding-top:10px; padding-bottom:10px; line-height: 15px; text-align:center; background-color:rgb(255, 255, 255);" >
-                <p>Exception 7261</p>              
-                <label id="AvailabilityLabel4">0</label>
-            </div>
+            
+		</div>
+
+        <div style="float:left; width:300px; height:800px; position:fixed; top:86px; left:700px">
+            <textarea id="tenantsArea" rows="200" cols="20" style="background-color:lightgray; resize:none; height:800px; " readonly="readonly" ></textarea>
         </div>
 
-        <div>
-            <div id="Div4" style="position:absolute; left:490px; top:5px; width:150px; height:100px; padding-top:10px; padding-bottom:10px; line-height: 15px; text-align:center; background-color:rgb(255, 255, 255);" >
-                <p>MailboxUsage</p>
-                <label id="MbxUsageUsageLabel">0</label>
-            </div>
-            <div id="Div5" style="position:absolute; left:655px; top:5px; width:150px; height:100px; padding-top:10px; padding-bottom:10px; line-height: 15px; text-align:center; background-color:rgb(255, 255, 255);" >
-                <p>MailboxUsage's DM</p>
-                <label id="MbxUsageDMLabel">99.9</label>
-            </div>
-            <div id="Div6" style="position:absolute; left:490px; top:130px; width:150px; height:100px; padding-top:10px; padding-bottom:10px; line-height: 15px; text-align:center; background-color:rgb(255, 255, 255);" >
-                <p>CBCTDaily</p>
-                <label id="ConnectionByClientTypeUsageLabel">0</label>
-            </div>
-            <div id="Div7" style="position:absolute; left:655px; top:130px; width:150px; height:100px; padding-top:10px; padding-bottom:10px; line-height: 15px; text-align:center; background-color:rgb(255, 255, 255);" >
-                <p>CBCTDaily's DM</p>
-                <label id="ConnectionByClientTypeDMLabel">99.1</label>
-            </div>
-        </div>
-
-        <div id="chartdiv" style="position:absolute; top:260px">
-            <canvas id="tagIDChart" width="400" height="200"></canvas>
         
-            <canvas id="barChart" width="400" height="200" style="position:relative; left:30px"></canvas>
-        </div>
-
-        <div style="position:absolute; left:850px; top:10px">
-            <textarea id="tenantsArea" rows="200" cols="20" style="text-align:center; resize: none; height:500px" readonly="readonly" ></textarea>
-        </div>
-
-        <div id="world-map" style="width:800px; height:200px; position:absolute; left:10px; top:460px">
-        </div>
     </div>
 
     <script>
@@ -99,16 +183,10 @@
         });
         function refreshLineChart()
         {
-            //document.getElementById("chartdiv").style = "margin-top:100px;";
-            document.getElementById("tagIDChart").width = "400";
-            document.getElementById("tagIDChart").height = "200";
             LoadAndRefreshAvailabilityChart();
         }
 
         function refreshBarChart() {
-            //document.getElementById("chartdiv").style = "margin-top:100px;";
-            document.getElementById("barChart").width = "400";
-            document.getElementById("barChart").height = "200";
             LoadAndRefreshDMChart();
         }
     </script>
