@@ -233,7 +233,7 @@ var barOptions = {
                 barData.datasets[0].data.push(DMItem.Completeness);
                 maiboxUsageCompletness += DMItem.Completeness;
             }
-            else if (DMItem.Page == "ConnectionByClientTypeDaily") {
+            else if (DMItem.Page == "ConnectionbyClientTypeDaily") {
                 //barData.labels.push(DMItem.DateHour);
                 barData.datasets[1].data.push(DMItem.Completeness);
                 connectionByClientTypeCompletness += DMItem.Completeness;
@@ -334,7 +334,7 @@ var barOptions = {
 
         availablityLabel1.html(availabilityDaily.toFixed(2));
         exceptionALabel.html(totalTag8553);
-        exceptionALabe2.html(totalTag8661);
+        exceptionALabe2.html(totalTagIDCountDaily);
         exceptionALabe3.html(totalTag7261);
 
         //Get context with jQuery - using jQuery's .get() method.

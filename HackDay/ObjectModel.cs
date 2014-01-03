@@ -43,4 +43,51 @@ namespace HackDay
 
         public string Bolt { get; set; }
     }
+    /// <summary>
+    /// ActorEntity
+    /// </summary>
+    public class ReportCompletnessEntry : TableEntity
+    {
+        /// <summary>
+        /// Suppose Topology Table is pretty small, so it's not necessary to Partition
+        /// </summary>
+        public const string Key = "ReportName";
+
+        public ReportCompletnessEntry()
+        {
+            this.PartitionKey = ReportCompletnessEntry.Key;
+        }
+
+        public string Name { get; set; }
+
+        public int RequestCount { get; set; }
+
+        public double TotalCompletness { get; set; }
+
+        public double Completness { get; set; }
+
+        public string Bolt { get; set; }
+    }
+
+    /// <summary>
+    /// ActorEntity
+    /// </summary>
+    public class LocationEntry : TableEntity
+    {
+        /// <summary>
+        /// Suppose Topology Table is pretty small, so it's not necessary to Partition
+        /// </summary>
+        public const string Key = "Location";
+
+        public LocationEntry()
+        {
+            this.PartitionKey = LocationEntry.Key;
+        }
+
+        public string Name { get; set; }
+
+        public int Count { get; set; }
+
+        public string Bolt { get; set; }
+    }
 }

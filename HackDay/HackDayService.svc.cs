@@ -18,6 +18,7 @@ namespace HackDay
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
     public class HackDayService : IService
     {
+        private string mDate = "12/12/2013";
         private static Microsoft.WindowsAzure.Storage.CloudStorageAccount GetStorageAccount()
         {
             Microsoft.WindowsAzure.Storage.CloudStorageAccount storageAccount = null;
@@ -96,50 +97,64 @@ namespace HackDay
 
         public IList<CountryItem> GetCountryData(string date)
         {
-            IList<CountryItem> cnData = new List<CountryItem>()
+            date = this.mDate;
+            IList<CountryItem> cnData = new List<CountryItem>();
+
+            CloudTable table = GetTable("Location");
+            var parts = date.Split(new char[] { '/' });
+
+            string rowKeyPrefix = parts[0] + "_" + parts[1] + "_" + parts[2] + "_";
+
+            string filter1 = TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.GreaterThanOrEqual, rowKeyPrefix);
+            string filter2 = TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.LessThanOrEqual, rowKeyPrefix + "ZZZ");
+            string filter3 = TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, LocationEntry.Key);
+            string filter = TableQuery.CombineFilters(filter1, TableOperators.And, filter2);
+            filter = TableQuery.CombineFilters(filter3, TableOperators.And, filter);
+
+            TableQuery<LocationEntry> query = new TableQuery<LocationEntry>().Where(filter);
+
+            foreach (LocationEntry locationEntity in table.ExecuteQuery(query))
             {
-                new CountryItem() {DateHour = "0", Country = "AL", Count = 1000},
-                new CountryItem() {DateHour = "0", Country = "AO", Count = 2000},
-                new CountryItem() {DateHour = "0", Country = "AF", Count = 3000},
-                new CountryItem() {DateHour = "0", Country = "DZ", Count = 4000},
-                new CountryItem() {DateHour = "0", Country = "EE", Count = 2000},
-                new CountryItem() {DateHour = "0", Country = "ZA", Count = 4000},
-                new CountryItem() {DateHour = "0", Country = "DZ", Count = 6000},
-            };
+                string location = locationEntity.RowKey.Substring(rowKeyPrefix.Length);
+                CountryItem locationItem = new CountryItem() { DateHour = "0", Country = location, Count = locationEntity.Count };
+                cnData.Add(locationItem);
+            }
+
             return cnData;
         }
 
         public IList<CompletenessItem> GetDQData(string date, string page)
         {
-            IList<CompletenessItem> dqData = new List<CompletenessItem>()
+            date = this.mDate;
+            IList<CompletenessItem> dqData = new List<CompletenessItem>();
+            List<string> reports = new List<string> { "MailboxUsage", "ConnectionbyClientTypeDaily" };
+            CloudTable table = GetTable("reportCompletness");
+            var parts = date.Split(new char[] { '/' });
+            for (int i = 0; i < reports.Count(); i++)
             {
-                new CompletenessItem() {DateHour = "0", Page = "MailboxUsage", Completeness = 1},
-                new CompletenessItem() {DateHour = "0", Page = "ConnectionByClientTypeDaily", Completeness = 0.991},
-                new CompletenessItem() {DateHour = "2", Page = "MailboxUsage", Completeness = 0.999},
-                new CompletenessItem() {DateHour = "2", Page = "ConnectionByClientTypeDaily", Completeness = 1},
-                new CompletenessItem() {DateHour = "4", Page = "MailboxUsage", Completeness = 1},
-                new CompletenessItem() {DateHour = "4", Page = "ConnectionByClientTypeDaily", Completeness = 1}, 
-                new CompletenessItem() {DateHour = "6", Page = "MailboxUsage", Completeness = 1},
-                new CompletenessItem() {DateHour = "6", Page = "ConnectionByClientTypeDaily", Completeness = 1},
-                new CompletenessItem() {DateHour = "8", Page = "MailboxUsage", Completeness = 1},
-                new CompletenessItem() {DateHour = "8", Page = "ConnectionByClientTypeDaily", Completeness = 1},
-                new CompletenessItem() {DateHour = "12", Page = "MailboxUsage", Completeness = 1},
-                new CompletenessItem() {DateHour = "12", Page = "ConnectionByClientTypeDaily", Completeness = 1},
-                new CompletenessItem() {DateHour = "14", Page = "MailboxUsage", Completeness = 1},
-                new CompletenessItem() {DateHour = "14", Page = "ConnectionByClientTypeDaily", Completeness = 1},
-                new CompletenessItem() {DateHour = "16", Page = "MailboxUsage", Completeness = 1},
-                new CompletenessItem() {DateHour = "16", Page = "ConnectionByClientTypeDaily", Completeness = 1},
-                new CompletenessItem() {DateHour = "18", Page = "MailboxUsage", Completeness = 1},
-                new CompletenessItem() {DateHour = "18", Page = "ConnectionByClientTypeDaily", Completeness = 1},
-                new CompletenessItem() {DateHour = "20", Page = "MailboxUsage", Completeness = 1},
-                new CompletenessItem() {DateHour = "20", Page = "ConnectionByClientTypeDaily", Completeness = 1},
-            };
+                string rowKeyPrefix = reports[i] + "_" + parts[0] + "_" + parts[1] + "_" + parts[2] + "_";
+
+                string filter1 = TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.GreaterThanOrEqual, rowKeyPrefix + "0");
+                string filter2 = TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.LessThanOrEqual, rowKeyPrefix + "9");
+                string filter3 = TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, ReportCompletnessEntry.Key);
+                string filter = TableQuery.CombineFilters(filter1, TableOperators.And, filter2);
+                filter = TableQuery.CombineFilters(filter3, TableOperators.And, filter);
+
+                TableQuery<ReportCompletnessEntry> query = new TableQuery<ReportCompletnessEntry>().Where(filter);
+
+                foreach (ReportCompletnessEntry compltEntity in table.ExecuteQuery(query))
+                {
+                    string hour = compltEntity.RowKey.Substring(rowKeyPrefix.Length);
+                    CompletenessItem compltItem = new CompletenessItem() { DateHour = hour, Page = reports[i], Completeness = compltEntity.Completness };
+                    dqData.Add(compltItem);
+                }
+            }
             return dqData;
         }
 
         public IList<TagIDItem> GetTagIDData(string date)
         {
-            date = "12/12/2013";
+            date = this.mDate;
             List<string> tagIDs = new List<string>{"8553", "8555", "8661", "8819", "7261"};
 
             IList<TagIDItem> tagIDData = new List<TagIDItem>();
@@ -165,32 +180,13 @@ namespace HackDay
                     tagIDData.Add(tagIDItem);
                 }
             }
-            //for (int hour = 0; hour <= 23; hour++)
-            //{
-            //    for (int i = 0; i < tagIDs.Count(); i++)
-            //    
-            //        string rowKey = tagIDs[i] + "_" + parts[0] + "_" + parts[1] + "_" + parts[2] + "_" + hour;
-            //        // Create a retrieve operation that takes a customer entity.
-            //        // 8553, 8555, 8661, 8819， 7261
-            //        TableOperation retrieveOperation = TableOperation.Retrieve<TagIdTotalCountEntry>(TagIdTotalCountEntry.Key, rowKey);
-
-            //        // Execute the retrieve operation.
-            //        TableResult retrievedResult = table.Execute(retrieveOperation);
-            //        if (retrievedResult.Result != null)
-            //        {
-            //            tagIDEntity = (TagIdTotalCountEntry)retrievedResult.Result;
-            //            TagIDItem tagIDItem = new TagIDItem() { DateHour = hour.ToString(), TagID = tagIDs[i], Count = tagIDEntity.Count };
-            //            tagIDData.Add(tagIDItem);
-            //        }
-            //    }
-            //}
-
+      
             return tagIDData;
         }
 
         public IList<PageItem> GetPageData(string date)
         {
-            date = "12/12/2013";
+            date = this.mDate;
             IList<PageItem> pageData = new List<PageItem>();
             List<string> pages = new List<string> { "MailboxUsage", "ConnectionByClientType" };
             CloudTable table = GetTable("page");
@@ -215,27 +211,7 @@ namespace HackDay
                     pageData.Add(pageItem);
                 }
             }
-            
-            //PageTotalCountEntry pageEntity = null;
 
-            //for (int hour = 0; hour <= 23; hour++)
-            //{
-            //    for (int i = 0; i < pages.Count(); i++)
-            //    {
-            //        string rowKey = pages[i] + "_" + parts[0] + "_" + parts[1] + "_" + parts[2] + "_" + hour;
-
-            //        TableOperation retrieveOperation = TableOperation.Retrieve<PageTotalCountEntry>(PageTotalCountEntry.Key, rowKey);
-
-            //        // Execute the retrieve operation.
-            //        TableResult retrievedResult = table.Execute(retrieveOperation);
-            //        if (retrievedResult.Result != null)
-            //        {
-            //            pageEntity = (PageTotalCountEntry)retrievedResult.Result;
-            //            PageItem pageItem = new PageItem() { DateHour = hour.ToString(), Page = pages[i], Count = pageEntity.Count };
-            //            pageData.Add(pageItem);
-            //        }
-            //    }
-            //}
             return pageData; 
         }
     }
