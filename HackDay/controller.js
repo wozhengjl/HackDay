@@ -200,6 +200,7 @@ var barOptions = {
     function LoadAndRefreshDMChart() {
         $.ajax({
             type: "GET",
+            cache: false,
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             url: 'HackDayService.svc/GetDQData',
@@ -262,6 +263,7 @@ var barOptions = {
     function LoadAndRefreshAvailabilityChart() {
         $.ajax({
             type: "GET",
+            cache: false,
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             url: 'HackDayService.svc/GetTagIDData',
@@ -345,6 +347,7 @@ var barOptions = {
     function LoadAndRefreshPagesDiv() {
         $.ajax({
             type: "GET",
+            cache: false,
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             url: 'HackDayService.svc/GetPageData',
@@ -386,6 +389,7 @@ var barOptions = {
     function LoadAndRefreshTenants() {
         $.ajax({
             type: "GET",
+            cache: false,
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             url: 'HackDayService.svc/GetTenantsData',
@@ -407,12 +411,13 @@ var barOptions = {
         }
         var tenantsArea = $("#tenantsArea");
 
-        tenantsArea.html(msg);
+        tenantsArea.html(tenants);
     }
     
     function LoadAndRefreshMap() {
         $.ajax({
             type: "GET",
+            cache: false,
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             url: 'HackDayService.svc/GetCountryData',
