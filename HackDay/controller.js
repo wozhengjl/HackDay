@@ -374,7 +374,7 @@ var barOptions = {
             if (pageItem.Page == "MailboxUsage") {
                 totalMbxPageCount += pageItem.Count;
             }
-            else if (pageItem.Page == "ConnectionByClientType") {
+            else if (pageItem.Page == "ConnectionbyClientType") {
                 totalConnectionByClientTypeDailyCount += pageItem.Count;
             }
         }
