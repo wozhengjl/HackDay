@@ -7,6 +7,7 @@ using System.ServiceModel;
 using System.ServiceModel.Activation;
 using System.ServiceModel.Web;
 using System.Text;
+using Microsoft.WindowsAzure.Storage.Queue;
 using Microsoft.WindowsAzure.Storage.Table;
 using Microsoft.WindowsAzure.Storage.Table.DataServices;
 
@@ -40,6 +41,19 @@ namespace HackDay
             return table;
         }
 
+        public static CloudQueue GetQueue(string name)
+        {
+            Microsoft.WindowsAzure.Storage.CloudStorageAccount storageAccount = GetStorageAccount();
+
+            CloudQueueClient client = storageAccount.CreateCloudQueueClient();
+
+            CloudQueue queue = client.GetQueueReference(name);
+
+            queue.CreateIfNotExists();
+
+            return queue;
+        }
+
         public string GetData(int value)
         {
             return string.Format("You entered: {0}", value);
@@ -60,20 +74,18 @@ namespace HackDay
 
         public IList<string> GetTenantsData(string date)
         {
+            var queueClient = GetQueue("latestaccess");
+
             IList<string> tenantsData = new List<string>
             {
-                "Tenant1",
-                "Tenant2",
-                "Tenant3",
-                "Tenant4",
-                "Tenant5",
-                "Tenant6",
-                "Tenant7",
-                "Tenant8",
-                "Tenant9",
-                "Tenant10",
-                "Tenant11",
-                "Tenant12",
+                "Tenant \"CogMotive\" \n is accessing StaleMailbox report...\n",
+                "Tenant \"CogMotive\" \n is accessing StaleMailbox report...\n",
+                "Tenant \"CogMotive\" \n is accessing StaleMailbox report...\n",
+                "Tenant \"CogMotive\" \n is accessing StaleMailbox report...\n",
+                "Tenant \"CogMotive\" \n is accessing StaleMailbox report...\n",
+                "Tenant \"CogMotive\" \n is accessing StaleMailbox report...\n",
+                "Tenant \"CogMotive\" \n is accessing StaleMailbox report...\n",
+                "Tenant \"CogMotive\" \n is accessing StaleMailbox report...\n",
             };
             return tenantsData;
         }

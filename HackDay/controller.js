@@ -406,15 +406,7 @@ var barOptions = {
             tenants += result[i] + "\n";
         }
         var tenantsArea = $("#tenantsArea");
-        var msg = tenantsArea.html();
-        //if (msg != "") {
-        //    msg += tenants;
-        //}
-        //else
-        //{
-        //    msg = tenants;
-        //}
-        msg = tenants;
+
         tenantsArea.html(msg);
     }
     
