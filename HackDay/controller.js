@@ -334,7 +334,7 @@ var barOptions = {
 
         availablityLabel1.html(availabilityDaily.toFixed(2));
         exceptionALabel.html(totalTag8553);
-        exceptionALabe2.html(totalTag8661);
+        exceptionALabe2.html(totalTagIDCountDaily);
         exceptionALabe3.html(totalTag7261);
 
         //Get context with jQuery - using jQuery's .get() method.
@@ -374,7 +374,7 @@ var barOptions = {
             if (pageItem.Page == "MailboxUsage") {
                 totalMbxPageCount += pageItem.Count;
             }
-            else if (pageItem.Page == "ConnectionByClientType") {
+            else if (pageItem.Page == "ConnectionbyClientType") {
                 totalConnectionByClientTypeDailyCount += pageItem.Count;
             }
         }
