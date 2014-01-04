@@ -1,4 +1,5 @@
 ﻿var mapObject;
+var cnData = new Array();
 
 var barData = {
     labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
@@ -435,7 +436,6 @@ var barOptions = {
 
     function DrawMap(result)
     {
-        var cnData = new Array();
         for (var i = 0; i < result.length; i++) {
             cnData[result[i].Country] = result[i].Count;
         }
