@@ -1,5 +1,4 @@
-﻿var cnData = new Array();
-var mapObject;
+﻿var mapObject;
 
 var barData = {
     labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
@@ -436,8 +435,28 @@ var barOptions = {
 
     function DrawMap(result)
     {
+        var cnData = new Array();
         for (var i = 0; i < result.length; i++) {
             cnData[result[i].Country] = result[i].Count;
         }
-        mapObject.series.regions[0].setValues(cnData);
+        if (mapObject == undefined) {
+            $('#world-map').vectorMap({
+                map: 'world_mill_en',
+                series: {
+                    regions: [{
+                        values: cnData,
+                        attribute: 'fill',
+                        scale: ['#C8EEFF', '#0071A4'],
+                        normalizeFunction: 'polynomial'
+                    }]
+                },
+                onRegionLabelShow: function (e, el, code) {
+                    el.html(el.html() + ' ( - ' + cnData[code] + ')');
+                }
+            });
+            mapObject = $('#world-map').vectorMap('get', 'mapObject');
+        }
+        else {
+            mapObject.series.regions[0].setValues(cnData);
+        }
     }
