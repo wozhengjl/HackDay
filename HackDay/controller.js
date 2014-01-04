@@ -1,4 +1,4 @@
-﻿var ActorState = {
+var ActorState = {
     NewBorn : 0,
     
     Working : 1,
@@ -11,6 +11,7 @@
 }
 
 var mapObject;
+
 var cnData = new Array();
 
 var barData = {
