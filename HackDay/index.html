@@ -155,22 +155,6 @@
 
     <script>
         $(document).ready(function () {
-           $('#world-map').vectorMap({
-                map: 'world_mill_en',
-                series: {
-                    regions: [{
-                        values: cnData,
-                        attribute: 'fill',
-                        scale: ['#C8EEFF', '#0071A4'],
-                        normalizeFunction: 'polynomial'
-                    }]
-                },
-                onRegionLabelShow: function (e, el, code) {
-                    el.html(el.html() + ' ( - ' + cnData[code] + ')');
-                }
-            });
-            mapObject = $('#world-map').vectorMap('get', 'mapObject');
-
             LoadAndRefreshAvailabilityChart();
             LoadAndRefreshDMChart();
             LoadAndRefreshPagesDiv();
@@ -184,10 +168,14 @@
         });
         function refreshLineChart()
         {
+            //document.getElementById("tagIDChart").width = "315";
+            //document.getElementById("tagIDChart").height = "160";
             LoadAndRefreshAvailabilityChart();
         }
 
         function refreshBarChart() {
+            //document.getElementById("barChart").width = "315";
+            //document.getElementById("barChart").height = "160";
             LoadAndRefreshDMChart();
         }
     </script>
