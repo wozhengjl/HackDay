@@ -160,12 +160,13 @@
                 series: {
                     regions: [{
                         values: cnData,
+                        attribute: 'fill',
                         scale: ['#C8EEFF', '#0071A4'],
                         normalizeFunction: 'polynomial'
                     }]
                 },
                 onRegionLabelShow: function (e, el, code) {
-                    el.html(el.html() + ' (GDP - ' + cnData[code] + ')');
+                    el.html(el.html() + ' ( - ' + cnData[code] + ')');
                 }
             });
             mapObject = $('#world-map').vectorMap('get', 'mapObject');

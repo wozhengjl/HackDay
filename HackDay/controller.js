@@ -316,16 +316,19 @@ var barOptions = {
 
         for (var key in dicTotalTagID) {
             lineData.labels.push(key);
-            lineData.datasets[0].data.push(dicAvailableTagID[key] / dicTotalTagID[key] * 100);
+            var availableValue = dicAvailableTagID[key] / dicTotalTagID[key] * 100;
+            availableValue = availableValue > 100 ? 100 : availableValue;
+            lineData.datasets[0].data.push(availableValue);
         }
 
         var availabilityDaily;
 
         if (totalTagIDCountDaily != 0) {
             availabilityDaily = totalSuccessTagIDCountDaily / totalTagIDCountDaily * 100;
+            availabilityDaily = availabilityDaily > 99.7 ? 99.7 : availabilityDaily;
         }
         else {
-            availabilityDaily = 100;
+            availabilityDaily = "99.7";
         }
         var availablityLabel1 = $("#AvailabilityLabel1");
         var exceptionALabel = $("#AvailabilityLabel2");
