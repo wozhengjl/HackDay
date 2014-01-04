@@ -10,6 +10,12 @@ var ActorState = {
     Unknown : 4
 }
 
+var ActorImg = ["<img src='/pic/born.png'  alt='New Born' />", 
+                "<img src='/pic/work.png'  alt='Working' />",
+                "<img src='/pic/error.png'  alt='Error' />",
+                "<img src='/pic/timeout.png'  alt='TimeOut' />",
+                "<img src='/pic/unKnown.png'  alt='Unknown' />"
+               ];
 var mapObject;
 
 var cnData = new Array();
@@ -491,6 +497,11 @@ var barOptions = {
 
     function DrawActors(result) {
         var actors = [];
+        $("#spoutDiv").empty();
+        $("#tagIDDiv").empty();
+        $("#pageDiv").empty();
+        $("#completenessDiv").empty();
+        $("#locationDiv").empty();
         for (var i = 0; i < result.length; i++) {
             var actorItem = {
                 TimeStamp: result[i].TimeStamp,
@@ -499,8 +510,23 @@ var barOptions = {
                 State: result[i].State,
                 Key: result[i].Key
             };
-
-            actors.push(actorItem);
+            if (actorItem.Name == "TagIdSpout")
+            {
+                $("#spoutDiv").append(ActorImg[actorItem.State]);
+            }
+            else if (actorItem.Name == "TagIdGroupBolt")
+            {
+                $("#tagIDDiv").append(ActorImg[actorItem.State])
+            }
+            else if (actorItem.Name == "PageGroupBolt") {
+                $("#pageDiv").append(ActorImg[actorItem.State])
+            }
+            else if (actorItem.Name == "ReportGroupCompletnessBolt") {
+                $("#completenessDiv").append(ActorImg[actorItem.State])
+            }
+            else if (actorItem.Name == "LocationGroupBolt") {
+                $("#locationDiv").append(ActorImg[actorItem.State])
+            }
         }
     }
 

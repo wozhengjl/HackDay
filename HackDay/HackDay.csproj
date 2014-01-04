@@ -96,6 +96,11 @@
     <Content Include="jquery-jvectormap-1.2.2.css" />
     <Content Include="jquery-jvectormap-1.2.2.min.js" />
     <Content Include="jquery-jvectormap-world-mill-en.js" />
+    <Content Include="pic\born.png" />
+    <Content Include="pic\error.png" />
+    <Content Include="pic\timeout.png" />
+    <Content Include="pic\unknown.png" />
+    <Content Include="pic\work.png" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
