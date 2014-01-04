@@ -1,4 +1,17 @@
-﻿var mapObject;
+﻿var ActorState = {
+    NewBorn : 0,
+    
+    Working : 1,
+
+    Error : 2,
+
+    TimeOut : 3,
+
+    Unknown : 4
+}
+
+var mapObject;
+var cnData = new Array();
 
 var barData = {
     labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
@@ -435,7 +448,6 @@ var barOptions = {
 
     function DrawMap(result)
     {
-        var cnData = new Array();
         for (var i = 0; i < result.length; i++) {
             cnData[result[i].Country] = result[i].Count;
         }
@@ -460,3 +472,37 @@ var barOptions = {
             mapObject.series.regions[0].setValues(cnData);
         }
     }
+
+    function LoadAndRefreshActors() {
+        $.ajax({
+            type: "GET",
+            cache: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            url: 'HackDayService.svc/GetActorData',
+            
+            success: function (result) {
+                result = result.d;
+                DrawActors(result);
+            }
+        });
+    }
+
+    function DrawActors(result) {
+        var actors = [];
+        for (var i = 0; i < result.length; i++) {
+            var actorItem = {
+                TimeStamp: result[i].TimeStamp,
+                Name: result[i].Name,
+                IsSpout: result[i].IsSpout,
+                State: result[i].State,
+                Key: result[i].Key
+            };
+
+            actors.push(actorItem);
+        }
+    }
+
+    
+
+    

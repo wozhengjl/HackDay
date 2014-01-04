@@ -214,5 +214,36 @@ namespace HackDay
 
             return pageData; 
         }
+
+        public IList<ActorItem> GetActorData()
+        {
+            CloudTable table = GetTable("topology");
+            List<ActorItem> ActorData = new List<ActorItem>();
+            string filter = TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, ActorAssignment.Key);
+
+            TableQuery<ActorAssignment> query = new TableQuery<ActorAssignment>().Where(filter);
+
+            foreach (ActorAssignment actorEntity in table.ExecuteQuery(query))
+            {
+                ActorState state = ActorState.Unknown;
+                if (Enum.TryParse<ActorState>(actorEntity.State, out state))
+                {
+                    if (state != ActorState.Error)
+                    {
+                        if ((DateTime.UtcNow - actorEntity.HeartBeat).TotalSeconds > 30)
+                        {
+                            state = ActorState.TimeOut;
+                        }
+                    }
+                }
+                else
+                {
+                    state = ActorState.Unknown;
+                }
+                ActorItem actorItem = new ActorItem() { TimeStamp = actorEntity.Timestamp.DateTime.ToString("yyyy-MM-dd HH/mm/ss"), Name = actorEntity.Name, IsSpout = actorEntity.IsSpout, State = state, Key = actorEntity.RowKey};
+                ActorData.Add(actorItem);
+            }
+            return ActorData;
+        }
     }
 }

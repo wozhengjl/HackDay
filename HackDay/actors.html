@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Topology Actors</title>
+
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css" />
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
+
+    <script src="controller.js"></script>
+</head>
+<body>
+    <div>
+        Hello Actors!
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            LoadAndRefreshActors();
+            setInterval("LoadAndRefreshActors()", 10000);
+        });
+    </script>
+</body>
+</html>

@@ -40,6 +40,10 @@ namespace HackDay
         [OperationContract]
         [WebGet]
         IList<CountryItem> GetCountryData(string date);
+
+        [OperationContract]
+        [WebGet]
+        IList<ActorItem> GetActorData();
     }
 
 
@@ -159,6 +163,76 @@ namespace HackDay
 
         [DataMember]
         public int Count
+        {
+            get;
+            set;
+        }
+    }
+
+    public enum ActorState
+    {
+        /// <summary>
+        /// New Actor Thread just created by a Service Role.
+        /// It happens when a Service Role is just rolled up or
+        /// Previous thread was killed by some reasons
+        /// </summary>
+        NewBorn = 0, 
+
+        /// <summary>
+        /// Actor is taking Queue item assigned to it.
+        /// $NOTE: after Actor is assigned, it's never ending until error out
+        /// </summary>
+        Working = 1,
+
+        /// <summary>
+        /// Any unexpected Exceptions causes thread abort
+        /// </summary>
+        Error = 2,
+
+        /// <summary>
+        /// No heatheat more than 30s
+        /// </summary>
+        TimeOut = 3,
+
+        /// <summary>
+        /// Default Sate
+        /// </summary>
+        Unknown = 4,
+    }
+
+    [DataContract]
+    public class ActorItem
+    {
+        [DataMember]
+        public string TimeStamp
+        {
+            get;
+            set;
+        }
+
+        [DataMember]
+        public string Name
+        {
+            get;
+            set;
+        }
+
+        [DataMember]
+        public ActorState State
+        {
+            get;
+            set;
+        }
+
+        [DataMember]
+        public bool? IsSpout
+        { 
+            get; 
+            set; 
+        }
+
+        [DataMember]
+        public string Key
         {
             get;
             set;

@@ -86,6 +86,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="actors.html" />
     <Content Include="chart.js" />
     <Content Include="controller.js" />
     <Content Include="index.html" />
