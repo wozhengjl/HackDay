@@ -3,32 +3,54 @@
 <head>
     <title>Topology Actors</title>
 
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css" />
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
 
+    <script src="/js/bootstrap.min.js"></script>
+
     <script src="controller.js"></script>
 </head>
+
 <body>
-    <div>
-        <h1>Spout</h1>
-        <div id = "spoutDiv">
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Topology Actors Status</h1>
         </div>
+    </div>
 
-        <h1>TadIDGroupBolt</h1>
-        <div id = "tagIDDiv">
-        </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-2">
+                <h4>Spout</h4>
+                <div id = "spoutDiv">
+                </div>
+            </div>
 
-        <h1>PageGroupBolt</h1>
-        <div id = "pageDiv">
-        </div>
+            <div class="col-sm-2">
+                <h4>TadIDGroupBolt</h4>
+                <div id="tagIDDiv">
+                </div>
+            </div>
 
-        <h1>CompletnessGroupBolt</h1>
-        <div id = "completenessDiv">
-        </div>
+            <div class="col-sm-2">
+                <h4>PageGroupBolt</h4>
+                <div id="pageDiv">
+                </div>
+            </div>
 
-        <h1>LocationBolt</h1>
-        <div id = "locationDiv">
+            <div class="col-sm-2">
+                <h4>CompletnessGroupBolt</h4>
+                <div id="completenessDiv">
+                </div>
+            </div>
+
+            <div class="col-sm-2">
+                <h4>LocationBolt</h4>
+                <div id="locationDiv">
+                </div>
+            </div>
         </div>
     </div>
 

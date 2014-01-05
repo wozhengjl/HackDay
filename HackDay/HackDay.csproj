@@ -89,6 +89,11 @@
     <Content Include="actors.html" />
     <Content Include="chart.js" />
     <Content Include="controller.js" />
+    <Content Include="css\bootstrap-theme.css" />
+    <Content Include="css\bootstrap-theme.min.css" />
+    <Content Include="css\bootstrap.css" />
+    <Content Include="css\bootstrap.min.css" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="index.html" />
     <Content Include="HackDayService.svc" />
     <Content Include="jquery-jvectormap-1.1.1.css" />
@@ -96,6 +101,8 @@
     <Content Include="jquery-jvectormap-1.2.2.css" />
     <Content Include="jquery-jvectormap-1.2.2.min.js" />
     <Content Include="jquery-jvectormap-world-mill-en.js" />
+    <Content Include="js\bootstrap.js" />
+    <Content Include="js\bootstrap.min.js" />
     <Content Include="pic\born.png" />
     <Content Include="pic\error.png" />
     <Content Include="pic\timeout.png" />
@@ -118,6 +125,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

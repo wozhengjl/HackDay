@@ -495,6 +495,11 @@ var barOptions = {
         });
     }
 
+    function RenderActorState(actorItem)
+    {
+        return '<p>' + ActorImg[actorItem.State]+ '&nbsp' + actorItem.Key.substring(0, 8) + '<p>'
+    }
+
     function DrawActors(result) {
         var actors = [];
         $("#spoutDiv").empty();
@@ -512,20 +517,20 @@ var barOptions = {
             };
             if (actorItem.Name == "TagIdSpout")
             {
-                $("#spoutDiv").append(ActorImg[actorItem.State]);
+                $("#spoutDiv").append(RenderActorState(actorItem));
             }
             else if (actorItem.Name == "TagIdGroupBolt")
             {
-                $("#tagIDDiv").append(ActorImg[actorItem.State])
+                $("#tagIDDiv").append(RenderActorState(actorItem))
             }
             else if (actorItem.Name == "PageGroupBolt") {
-                $("#pageDiv").append(ActorImg[actorItem.State])
+                $("#pageDiv").append(RenderActorState(actorItem))
             }
             else if (actorItem.Name == "ReportGroupCompletnessBolt") {
-                $("#completenessDiv").append(ActorImg[actorItem.State])
+                $("#completenessDiv").append(RenderActorState(actorItem))
             }
             else if (actorItem.Name == "LocationGroupBolt") {
-                $("#locationDiv").append(ActorImg[actorItem.State])
+                $("#locationDiv").append(RenderActorState(actorItem))
             }
         }
     }
